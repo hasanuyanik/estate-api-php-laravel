@@ -3,6 +3,7 @@ namespace App\Http\Services;
 
 use App\Contracts\IAppointmentService;
 use App\Http\Repositories\AppointmentRepository as Repository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class AppointmentService implements IAppointmentService
@@ -41,6 +42,16 @@ class AppointmentService implements IAppointmentService
     }
 
     /**
+     * @param int $id
+     * 
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        return $this->repository->delete($id);
+    }
+
+    /**
      * @return Collection
      */
     public function list(): Collection
@@ -49,13 +60,13 @@ class AppointmentService implements IAppointmentService
     }
 
     /**
-     * @param array $datas
+     * @param Carbon $date
      * 
      * @return Collection
      */
-    public function byDatas(array $datas): Collection
+    public function byDate(Carbon $date): Collection
     {
-        return $this->repository->byDatas($datas);
+        return $this->repository->byDate($date);
     }
 
 }

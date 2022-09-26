@@ -12,7 +12,7 @@ class ContactRepository
      */
     public function create(array $data)
     {
-        return Contact::create($data);
+        return Contact::updateOrCreate($data);
     }
 
     /**

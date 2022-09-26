@@ -2,6 +2,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Appointment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class AppointmentRepository
@@ -27,6 +28,17 @@ class AppointmentRepository
     }
 
     /**
+     * @param int $id
+     * @param array $data
+     * 
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        return Appointment::where('id', $id)->delete();
+    }
+
+    /**
      * @return Collection
      */
     public function list(): Collection
@@ -35,13 +47,13 @@ class AppointmentRepository
     }
 
     /**
-     * @param array $datas
+     * @param Carbon $date
      * 
      * @return Collection
      */
-    public function byDatas(array $datas): Collection
+    public function byDate(Carbon $date): Collection
     {
-        return Appointment::where($datas)->get();
+        return Appointment::where('date', $date)->get();
     }
 
 }

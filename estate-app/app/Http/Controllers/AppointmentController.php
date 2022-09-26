@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Contracts\IAppointmentService;
 use App\Contracts\IContactService;
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Psr7\Request;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class AppointmentController extends Controller
 {
@@ -43,24 +46,28 @@ class AppointmentController extends Controller
             'phone' => $request->phone
         ]);
 
-        $client = new \GuzzleHttp\Client();
-        $endpoint = 'https://maps.googleapis.com/maps/api/distancematrix/json';
-
-        $response = $client->request('GET', $endpoint, ['query' => [
+        $response = Http::get('https://maps.googleapis.com/maps/api/distancematrix/json', [
             'destinations' => $request->appointmentAddress, 
             'origins' => env('REALTOR_ZIP_CODE'),
             'units' => 'imperial',
             'key' => env('GOOGLE_DISTANCE_MATRIX_API_KEY')
-        ]]);
-dd($response);
+        ])->collect()['rows'][0]['elements'][0];
+
+        $returnTime = (($response['duration']['value']*2)/60)+env('APPOINTMENT_DURATION');
+        
+        $estimateDeparture = new Carbon($request->estimateDeparture);
+
         $user = $this->appointmentService->create([
+            'user_id' => Auth::id(),
             'contact_id' => $contact->id,
-            'address' => $request->appointmentAddress,
-            'date' => $request->date,
-            'distance',
-            'estimate_departure' => $request->estimateDeparture,
-            'return_time'
+            'address' => "'".$request->appointmentAddress."'",
+            'date' => new Carbon($request->date),
+            'distance' => $response['distance']['value'],
+            'estimate_departure' => $estimateDeparture,
+            'return_time' => $estimateDeparture->addMinute($returnTime)
         ]);
+
+        dd($user);
 
         return response()->json([
             'message' => 'Created',
@@ -68,67 +75,23 @@ dd($response);
         ]);
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login()
+    public function update(Request $request)
     {
-        $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $this->respondWithToken($token);
     }
 
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
+    public function delete(int $id)
     {
-        return response()->json(auth()->user());
+        return $this->appointmentService->delete($id);
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
+    public function list()
     {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->appointmentService->list();
     }
 
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
+    public function byDate(string $date)
     {
-        return $this->respondWithToken(auth()->refresh());
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        return $this->appointmentService->byDate(new Carbon($date));
     }
 }
