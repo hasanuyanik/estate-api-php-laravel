@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Repositories;
 
-use App\Models\Contact;
+use App\Models\Appointment;
 use Illuminate\Database\Eloquent\Collection;
 
-class ContactRepository
+class AppointmentRepository
 {
     /**
      * @param array $data
@@ -12,7 +12,7 @@ class ContactRepository
      */
     public function create(array $data)
     {
-        return Contact::create($data);
+        return Appointment::create($data);
     }
 
     /**
@@ -23,7 +23,7 @@ class ContactRepository
      */
     public function update(int $id, array $data): bool
     {
-        return Contact::where('id', $id)->update($data);
+        return Appointment::where('id', $id)->update($data);
     }
 
     /**
@@ -31,7 +31,7 @@ class ContactRepository
      */
     public function list(): Collection
     {
-        return Contact::get();
+        return Appointment::get();
     }
 
     /**
@@ -41,7 +41,7 @@ class ContactRepository
      */
     public function byDatas(array $datas): Collection
     {
-        return Contact::where($datas)->get();
+        return Appointment::where($datas)->get();
     }
 
 }

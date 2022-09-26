@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,5 +41,11 @@ Route::controller(AuthController::class)->middleware('api')->group(function ($ro
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
     Route::post('me', 'me');
+});
 
+Route::prefix('appointment')->controller(AppointmentController::class)->middleware('api')->group(function ($router) {
+    Route::post('/create', 'create');
+    Route::post('/update', 'update');
+    Route::get('/delete/{id}', 'delete');
+    Route::post('/list', 'list');
 });

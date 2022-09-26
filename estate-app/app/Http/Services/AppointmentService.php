@@ -1,11 +1,11 @@
 <?php
 namespace App\Http\Services;
 
-use App\Contracts\IContactService;
-use App\Http\Repositories\ContactRepository as Repository;
+use App\Contracts\IAppointmentService;
+use App\Http\Repositories\AppointmentRepository as Repository;
 use Illuminate\Database\Eloquent\Collection;
 
-class ContactService implements IContactService
+class AppointmentService implements IAppointmentService
 {
     /**
      * @var Repository
