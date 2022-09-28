@@ -28,7 +28,7 @@ class Appointment extends Model
      */
     public function contacts()
     {
-        return $this->belongsTo(Contact::class);
+        return $this->belongsTo(Contact::class, 'contact_id', 'id');
     }
 
     /**
@@ -36,6 +36,6 @@ class Appointment extends Model
      */
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

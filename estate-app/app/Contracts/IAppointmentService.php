@@ -1,6 +1,7 @@
 <?php
 namespace App\Contracts;
 
+use App\Models\Appointment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -28,14 +29,16 @@ interface IAppointmentService
     public function delete(int $id): bool;
 
     /**
-     * @return Collection
-     */
-    public function list(): Collection;
-
-    /**
-     * @param Carbon $date
+     * @param array $data
      * 
      * @return Collection
      */
-    public function byDate(Carbon $date): Collection;
+    public function list(array $data): Collection;
+
+    /**
+     * @param int $id
+     * 
+     * @return Appointment
+     */
+    public function byId(int $id): Appointment;
 }

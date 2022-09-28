@@ -24,7 +24,7 @@ class ContactService implements IContactService
      * @param array $data
      * 
      */
-    public function create(array $data)
+    public function createOrUpdate(array $data)
     {
         return $this->repository->create($data);
     }

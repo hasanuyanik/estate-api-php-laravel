@@ -45,7 +45,7 @@ Route::controller(AuthController::class)->middleware('api')->group(function ($ro
 
 Route::prefix('appointment')->controller(AppointmentController::class)->middleware('api')->group(function ($router) {
     Route::post('/create', 'create');
-    Route::post('/update', 'update');
+    Route::post('/update/{id}', 'update');
     Route::get('/delete/{id}', 'delete');
     Route::post('/list', 'list');
 });

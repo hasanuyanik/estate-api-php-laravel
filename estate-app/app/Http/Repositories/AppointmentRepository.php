@@ -39,21 +39,23 @@ class AppointmentRepository
     }
 
     /**
-     * @return Collection
-     */
-    public function list(): Collection
-    {
-        return Appointment::get();
-    }
-
-    /**
-     * @param Carbon $date
+     * @param array $data
      * 
      * @return Collection
      */
-    public function byDate(Carbon $date): Collection
+    public function list(array $data): Collection
     {
-        return Appointment::where('date', $date)->get();
+        return Appointment::with(['contacts'])->where($data)->get();
+    }
+
+    /**
+     * @param int $id
+     * 
+     * @return Appointment
+     */
+    public function byId(int $id): Appointment
+    {
+        return Appointment::with(['contacts'])->where('id', $id)->first();
     }
 
 }

@@ -9,7 +9,7 @@ interface IContactService
      * @param array $data
      * 
      */
-    public function create(array $data);
+    public function createOrUpdate(array $data);
 
     /**
      * @param int $id

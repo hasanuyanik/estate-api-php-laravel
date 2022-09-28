@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('contact_id');
             $table->text('address');
-            $table->date('date');
+            $table->datetime('date');
             $table->string('distance');
-            $table->date('estimate_departure');
-            $table->date('return_time');
+            $table->datetime('estimate_departure');
+            $table->datetime('return_time');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
