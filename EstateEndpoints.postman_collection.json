@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "a21bde98-4004-49a1-bfee-ecab65a2e87a",
+		"name": "EstateEndpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16964067"
+	},
+	"item": [
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customer\" : {\r\n        \"name\" : \"Hasan\",\r\n        \"surname\" : \"UYANIK\",\r\n        \"email\" : \"Contact Mail\",\r\n        \"address\" : \"Contact Address\",\r\n        \"phone\" : \"05554443322\"\r\n    },\r\n    \"date\" : \"2022-10-15\",\r\n    \"estimateDeparture\" : \"2022-10-15 17:00\",\r\n    \"address\" : \"The Salvation Army Chelmsford Citadel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/appointment/create",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"appointment",
+								"create"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\" : \"2022-10-15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/appointment/list",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"appointment",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/api/appointment/delete/1",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"appointment",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customer\" : {\r\n        \"name\" : \"Hasan\",\r\n        \"surname\" : \"UYANIK\",\r\n        \"email\" : \"Contact Mail\",\r\n        \"address\" : \"Contact Address\",\r\n        \"phone\" : \"05554443322\"\r\n    },\r\n    \"date\" : \"2022-10-05\",\r\n    \"estimateDeparture\" : \"2022-10-05 12:00\",\r\n    \"address\" : \"Pontlands Park\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/appointment/update/19",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"appointment",
+								"update",
+								"19"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"abc@a.com\",\r\n    \"password\" : \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/login",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "abc@a.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Hasan\",\r\n    \"email\" : \"abc@b.com\",\r\n    \"password\" : \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/register",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"register"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "abc@a.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/api/me",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "JWT Token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

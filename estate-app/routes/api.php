@@ -17,26 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-*/
-Route::controller(AuthController::class)->post('register', function(Request $request){
-    $user = User::create([
-        'name' => 'Hasan UYANIK',
-        'email' => $request->email,
-        'password' => bcrypt($request->password)
-    ]);
-
-    return response()->json([
-        'message' => 'Created',
-        'user' => $user
-    ]);
-});
-
 Route::controller(AuthController::class)->middleware('api')->group(function ($router) {
-   // Route::post('register', 'AuthController@register');
+    Route::post('register', 'register');
     Route::post('login', 'login');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');

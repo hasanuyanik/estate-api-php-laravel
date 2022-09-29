@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Http\Services\UserService;
-use App\Models\User;
-use GuzzleHttp\Psr7\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -26,28 +26,38 @@ class AuthController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    public function register(Request $request)
+    /**
+     * @return JsonResponse
+     */
+    public function register(UserRequest $request): JsonResponse
     {
-        $user = $this->userService([
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
+        try{
+            $user = $this->userService->create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password)
+            ]);
 
-        return response()->json([
-            'message' => 'Created',
-            'user' => $user
-        ]);
+            return response()->json([
+                'message' => 'Created',
+                'user' => $user
+            ]);
+        } catch(Exception $exception) {
+            Log::error($exception);
+
+            return response()->json(['message' => 'An error occurred!'], 400);
+        }
     }
 
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function login()
+    public function login(): JsonResponse
     {
         $credentials = request(['email', 'password']);
 
@@ -61,9 +71,9 @@ class AuthController extends Controller
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function me()
+    public function me(): JsonResponse
     {
         return response()->json(auth()->user());
     }
@@ -71,9 +81,9 @@ class AuthController extends Controller
     /**
      * Log the user out (Invalidate the token).
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
         auth()->logout();
 
@@ -83,9 +93,9 @@ class AuthController extends Controller
     /**
      * Refresh a token.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function refresh()
+    public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth()->refresh());
     }
@@ -95,9 +105,9 @@ class AuthController extends Controller
      *
      * @param  string $token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,
